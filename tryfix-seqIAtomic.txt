@@ -1,0 +1,1059 @@
+64 byte
+1 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+590488443
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 1 block_size: 64 sum: 3.77907
+write: 
+To creat some threads
+main: after creating all threads and warm up
+82299887
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 1 block_size: 64 sum: 0.526712
+2 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+289631715
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 2 block_size: 64 sum: 1.85362
+write: 
+To creat some threads
+main: after creating all threads and warm up
+108235193
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 2 block_size: 64 sum: 0.692695
+3 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+219089561
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 3 block_size: 64 sum: 1.40215
+write: 
+To creat some threads
+main: after creating all threads and warm up
+114501131
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 3 block_size: 64 sum: 0.732799
+4 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+134932358
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 4 block_size: 64 sum: 0.863555
+write: 
+To creat some threads
+main: after creating all threads and warm up
+132427972
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 4 block_size: 64 sum: 0.847528
+5 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+139783393
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 5 block_size: 64 sum: 0.894603
+write: 
+To creat some threads
+main: after creating all threads and warm up
+100809619
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 5 block_size: 64 sum: 0.645173
+6 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+131042194
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 6 block_size: 64 sum: 0.838658
+write: 
+To creat some threads
+main: after creating all threads and warm up
+102482802
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 6 block_size: 64 sum: 0.65588
+7 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+132263273
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 7 block_size: 64 sum: 0.846473
+write: 
+To creat some threads
+main: after creating all threads and warm up
+95885357
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 7 block_size: 64 sum: 0.613657
+8 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+220783862
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 8 block_size: 64 sum: 1.413
+write: 
+To creat some threads
+main: after creating all threads and warm up
+121945780
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 8 block_size: 64 sum: 0.780445
+9 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+133098985
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 9 block_size: 64 sum: 0.851822
+write: 
+To creat some threads
+main: after creating all threads and warm up
+77993918
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 9 block_size: 64 sum: 0.499154
+10 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+129961620
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 10 block_size: 64 sum: 0.831744
+write: 
+To creat some threads
+main: after creating all threads and warm up
+95739658
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 10 block_size: 64 sum: 0.612725
+11 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+126476149
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 11 block_size: 64 sum: 0.809436
+write: 
+To creat some threads
+main: after creating all threads and warm up
+82792173
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 11 block_size: 64 sum: 0.529865
+12 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+206413204
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 12 block_size: 64 sum: 1.32103
+write: 
+To creat some threads
+main: after creating all threads and warm up
+65107642
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 12 block_size: 64 sum: 0.416684
+13 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+126287675
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 13 block_size: 64 sum: 0.808231
+write: 
+To creat some threads
+main: after creating all threads and warm up
+65734835
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 13 block_size: 64 sum: 0.420696
+14 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+127755604
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 14 block_size: 64 sum: 0.817626
+write: 
+To creat some threads
+main: after creating all threads and warm up
+62352225
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 14 block_size: 64 sum: 0.399048
+15 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+212063824
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 15 block_size: 64 sum: 1.35719
+write: 
+To creat some threads
+main: after creating all threads and warm up
+58633660
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 15 block_size: 64 sum: 0.37525
+16 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+218396124
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 16 block_size: 64 sum: 1.39772
+write: 
+To creat some threads
+main: after creating all threads and warm up
+55622136
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 16 block_size: 64 sum: 0.355978
+17 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+143275118
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 17 block_size: 64 sum: 0.916953
+write: 
+To creat some threads
+main: after creating all threads and warm up
+48224341
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 17 block_size: 64 sum: 0.308631
+18 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+229235703
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 18 block_size: 64 sum: 1.4671
+write: 
+To creat some threads
+main: after creating all threads and warm up
+58508900
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 18 block_size: 64 sum: 0.374452
+19 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+154879290
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 19 block_size: 64 sum: 0.99122
+write: 
+To creat some threads
+main: after creating all threads and warm up
+55171679
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 19 block_size: 64 sum: 0.353094
+20 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+267007614
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 20 block_size: 64 sum: 1.70883
+write: 
+To creat some threads
+main: after creating all threads and warm up
+46191035
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 20 block_size: 64 sum: 0.295618
+21 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+162782902
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 21 block_size: 64 sum: 1.0418
+write: 
+To creat some threads
+main: after creating all threads and warm up
+47156466
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 21 block_size: 64 sum: 0.301798
+22 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+159548246
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 22 block_size: 64 sum: 1.0211
+write: 
+To creat some threads
+main: after creating all threads and warm up
+54140166
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 22 block_size: 64 sum: 0.346492
+23 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+146835822
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 23 block_size: 64 sum: 0.93974
+write: 
+To creat some threads
+main: after creating all threads and warm up
+47363895
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 23 block_size: 64 sum: 0.303127
+24 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+147301194
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 24 block_size: 64 sum: 0.94272
+write: 
+To creat some threads
+main: after creating all threads and warm up
+52583022
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 24 block_size: 64 sum: 0.336527
+25 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+153898218
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 25 block_size: 64 sum: 0.984936
+write: 
+To creat some threads
+main: after creating all threads and warm up
+49155410
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 25 block_size: 64 sum: 0.314592
+26 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+151847261
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 26 block_size: 64 sum: 0.971815
+write: 
+To creat some threads
+main: after creating all threads and warm up
+48374266
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 26 block_size: 64 sum: 0.309593
+27 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+154358895
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 27 block_size: 64 sum: 0.98789
+write: 
+To creat some threads
+main: after creating all threads and warm up
+45445461
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 27 block_size: 64 sum: 0.290848
+28 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+151580398
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 28 block_size: 64 sum: 0.970104
+write: 
+To creat some threads
+main: after creating all threads and warm up
+50125726
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 28 block_size: 64 sum: 0.3208
+29 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+206632896
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 29 block_size: 64 sum: 1.32244
+write: 
+To creat some threads
+main: after creating all threads and warm up
+44088212
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 29 block_size: 64 sum: 0.282162
+30 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+117923613
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 30 block_size: 64 sum: 0.754705
+write: 
+To creat some threads
+main: after creating all threads and warm up
+42046366
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 30 block_size: 64 sum: 0.269093
+31 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+120707713
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 31 block_size: 64 sum: 0.77252
+write: 
+To creat some threads
+main: after creating all threads and warm up
+41562499
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 31 block_size: 64 sum: 0.265997
+32 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+124856814
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 32 block_size: 64 sum: 0.799078
+write: 
+To creat some threads
+main: after creating all threads and warm up
+42842437
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 32 block_size: 64 sum: 0.274189
+256 byte
+1 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+401187852
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 1 block_size: 256 sum: 10.2703
+write: 
+To creat some threads
+main: after creating all threads and warm up
+81828095
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 1 block_size: 256 sum: 2.09477
+2 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+189380789
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 2 block_size: 256 sum: 4.84809
+write: 
+To creat some threads
+main: after creating all threads and warm up
+111258330
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 2 block_size: 256 sum: 2.84818
+3 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+210366555
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 3 block_size: 256 sum: 5.38532
+write: 
+To creat some threads
+main: after creating all threads and warm up
+83468837
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 3 block_size: 256 sum: 2.13677
+4 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+132394122
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 4 block_size: 256 sum: 3.38925
+write: 
+To creat some threads
+main: after creating all threads and warm up
+92655063
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 4 block_size: 256 sum: 2.37194
+5 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+126164445
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 5 block_size: 256 sum: 3.22977
+write: 
+To creat some threads
+main: after creating all threads and warm up
+84288761
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 5 block_size: 256 sum: 2.15776
+6 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+131417497
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 6 block_size: 256 sum: 3.36425
+write: 
+To creat some threads
+main: after creating all threads and warm up
+93155917
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 6 block_size: 256 sum: 2.38476
+7 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+133192755
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 7 block_size: 256 sum: 3.40969
+write: 
+To creat some threads
+main: after creating all threads and warm up
+79904817
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 7 block_size: 256 sum: 2.04553
+8 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+120745234
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 8 block_size: 256 sum: 3.09104
+write: 
+To creat some threads
+main: after creating all threads and warm up
+90129854
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 8 block_size: 256 sum: 2.30729
+9 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+128872887
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 9 block_size: 256 sum: 3.2991
+write: 
+To creat some threads
+main: after creating all threads and warm up
+46639991
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 9 block_size: 256 sum: 1.19397
+10 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+118020957
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 10 block_size: 256 sum: 3.0213
+write: 
+To creat some threads
+main: after creating all threads and warm up
+52631083
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 10 block_size: 256 sum: 1.34734
+11 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+209714974
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 11 block_size: 256 sum: 5.36864
+write: 
+To creat some threads
+main: after creating all threads and warm up
+37763604
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 11 block_size: 256 sum: 0.966736
+12 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+107309227
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 12 block_size: 256 sum: 2.74708
+write: 
+To creat some threads
+main: after creating all threads and warm up
+32680449
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 12 block_size: 256 sum: 0.836609
+13 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+109233258
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 13 block_size: 256 sum: 2.79633
+write: 
+To creat some threads
+main: after creating all threads and warm up
+31751841
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 13 block_size: 256 sum: 0.812836
+14 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+108410908
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 14 block_size: 256 sum: 2.77528
+write: 
+To creat some threads
+main: after creating all threads and warm up
+27914178
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 14 block_size: 256 sum: 0.714593
+15 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+107018200
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 15 block_size: 256 sum: 2.73963
+write: 
+To creat some threads
+main: after creating all threads and warm up
+26763523
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 15 block_size: 256 sum: 0.685134
+16 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+138875711
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 16 block_size: 256 sum: 3.55519
+write: 
+To creat some threads
+main: after creating all threads and warm up
+24435011
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 16 block_size: 256 sum: 0.625526
+17 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+141957865
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 17 block_size: 256 sum: 3.63409
+write: 
+To creat some threads
+main: after creating all threads and warm up
+22783737
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 17 block_size: 256 sum: 0.583257
+18 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+239519447
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 18 block_size: 256 sum: 6.13164
+write: 
+To creat some threads
+main: after creating all threads and warm up
+21912720
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 18 block_size: 256 sum: 0.560959
+19 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+152159918
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 19 block_size: 256 sum: 3.89526
+write: 
+To creat some threads
+main: after creating all threads and warm up
+21314132
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 19 block_size: 256 sum: 0.545635
+20 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+264579040
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 20 block_size: 256 sum: 6.77317
+write: 
+To creat some threads
+main: after creating all threads and warm up
+21305909
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 20 block_size: 256 sum: 0.545424
+21 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+126796486
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 21 block_size: 256 sum: 3.24596
+write: 
+To creat some threads
+main: after creating all threads and warm up
+19649408
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 21 block_size: 256 sum: 0.503017
+22 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+288783016
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 22 block_size: 256 sum: 7.39278
+write: 
+To creat some threads
+main: after creating all threads and warm up
+20816494
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 22 block_size: 256 sum: 0.532894
+23 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+170521397
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 23 block_size: 256 sum: 4.36531
+write: 
+To creat some threads
+main: after creating all threads and warm up
+21230061
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 23 block_size: 256 sum: 0.543481
+24 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+181767377
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 24 block_size: 256 sum: 4.65321
+write: 
+To creat some threads
+main: after creating all threads and warm up
+20284797
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 24 block_size: 256 sum: 0.519283
+25 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+144891461
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 25 block_size: 256 sum: 3.70919
+write: 
+To creat some threads
+main: after creating all threads and warm up
+21805220
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 25 block_size: 256 sum: 0.558207
+26 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+245275973
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 26 block_size: 256 sum: 6.27902
+write: 
+To creat some threads
+main: after creating all threads and warm up
+20469539
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 26 block_size: 256 sum: 0.524013
+27 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+121238711
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 27 block_size: 256 sum: 3.10369
+write: 
+To creat some threads
+main: after creating all threads and warm up
+21336241
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 27 block_size: 256 sum: 0.546202
+28 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+169767522
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 28 block_size: 256 sum: 4.34601
+write: 
+To creat some threads
+main: after creating all threads and warm up
+19730075
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 28 block_size: 256 sum: 0.505086
+29 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+147075645
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 29 block_size: 256 sum: 3.7651
+write: 
+To creat some threads
+main: after creating all threads and warm up
+19260433
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 29 block_size: 256 sum: 0.49306
+30 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+241675594
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 30 block_size: 256 sum: 6.18682
+write: 
+To creat some threads
+main: after creating all threads and warm up
+18403389
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 30 block_size: 256 sum: 0.47112
+31 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+98967489
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 31 block_size: 256 sum: 2.53355
+write: 
+To creat some threads
+main: after creating all threads and warm up
+19216047
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 31 block_size: 256 sum: 0.491925
+32 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+125936611
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 32 block_size: 256 sum: 3.22395
+write: 
+To creat some threads
+main: after creating all threads and warm up
+17664374
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 32 block_size: 256 sum: 0.452203
+4096 byte
+1 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+27217498
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 1 block_size: 4096 sum: 11.1481
+write: 
+To creat some threads
+main: after creating all threads and warm up
+16864433
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 1 block_size: 4096 sum: 6.90759
+2 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+44549864
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 2 block_size: 4096 sum: 18.2474
+write: 
+To creat some threads
+main: after creating all threads and warm up
+29020308
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 2 block_size: 4096 sum: 11.8866
+3 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+58590660
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 3 block_size: 4096 sum: 23.9985
+write: 
+To creat some threads
+main: after creating all threads and warm up
+28954074
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 3 block_size: 4096 sum: 11.8594
+4 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+64216837
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 4 block_size: 4096 sum: 26.303
+write: 
+To creat some threads
+main: after creating all threads and warm up
+38019488
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 4 block_size: 4096 sum: 15.5726
+5 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+69508023
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 5 block_size: 4096 sum: 28.4701
+write: 
+To creat some threads
+main: after creating all threads and warm up
+31954801
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 5 block_size: 4096 sum: 13.0885
+6 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+74260724
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 6 block_size: 4096 sum: 30.4169
+write: 
+To creat some threads
+main: after creating all threads and warm up
+36546576
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 6 block_size: 4096 sum: 14.9692
+7 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+77418154
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 7 block_size: 4096 sum: 31.7102
+write: 
+To creat some threads
+main: after creating all threads and warm up
+26906362
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 7 block_size: 4096 sum: 11.0207
+8 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+77769206
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 8 block_size: 4096 sum: 31.8539
+write: 
+To creat some threads
+main: after creating all threads and warm up
+18986143
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 8 block_size: 4096 sum: 7.77661
+9 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+77700517
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 9 block_size: 4096 sum: 31.8257
+write: 
+To creat some threads
+main: after creating all threads and warm up
+12931787
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 9 block_size: 4096 sum: 5.29679
+10 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+78363439
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 10 block_size: 4096 sum: 32.0973
+write: 
+To creat some threads
+main: after creating all threads and warm up
+10550946
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 10 block_size: 4096 sum: 4.3216
+11 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+78780775
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 11 block_size: 4096 sum: 32.2683
+write: 
+To creat some threads
+main: after creating all threads and warm up
+7944192
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 11 block_size: 4096 sum: 3.2539
+12 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+77599785
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 12 block_size: 4096 sum: 31.7844
+write: 
+To creat some threads
+main: after creating all threads and warm up
+5569656
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 12 block_size: 4096 sum: 2.28131
+13 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+77262207
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 13 block_size: 4096 sum: 31.6462
+write: 
+To creat some threads
+main: after creating all threads and warm up
+5253194
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 13 block_size: 4096 sum: 2.15167
+14 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+77473378
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 14 block_size: 4096 sum: 31.7326
+write: 
+To creat some threads
+main: after creating all threads and warm up
+4650216
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 14 block_size: 4096 sum: 1.9047
+15 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+78238044
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 15 block_size: 4096 sum: 32.0458
+write: 
+To creat some threads
+main: after creating all threads and warm up
+4565299
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 15 block_size: 4096 sum: 1.86992
+16 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+77354121
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 16 block_size: 4096 sum: 31.6839
+write: 
+To creat some threads
+main: after creating all threads and warm up
+4122172
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 16 block_size: 4096 sum: 1.68842
+17 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+77236473
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 17 block_size: 4096 sum: 31.6357
+write: 
+To creat some threads
+main: after creating all threads and warm up
+4173407
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 17 block_size: 4096 sum: 1.70941
+18 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+77115301
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 18 block_size: 4096 sum: 31.586
+write: 
+To creat some threads
+main: after creating all threads and warm up
+4035221
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 18 block_size: 4096 sum: 1.6528
+19 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+77236899
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 19 block_size: 4096 sum: 31.6358
+write: 
+To creat some threads
+main: after creating all threads and warm up
+3780953
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 19 block_size: 4096 sum: 1.54866
+20 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+76657180
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 20 block_size: 4096 sum: 31.3984
+write: 
+To creat some threads
+main: after creating all threads and warm up
+3634369
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 20 block_size: 4096 sum: 1.48862
+21 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+77389123
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 21 block_size: 4096 sum: 31.6982
+write: 
+To creat some threads
+main: after creating all threads and warm up
+3475445
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 21 block_size: 4096 sum: 1.42352
+22 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+77283299
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 22 block_size: 4096 sum: 31.6547
+write: 
+To creat some threads
+main: after creating all threads and warm up
+3453515
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 22 block_size: 4096 sum: 1.41454
+23 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+77048163
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 23 block_size: 4096 sum: 31.5584
+write: 
+To creat some threads
+main: after creating all threads and warm up
+3375152
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 23 block_size: 4096 sum: 1.38244
+24 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+77131679
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 24 block_size: 4096 sum: 31.5927
+write: 
+To creat some threads
+main: after creating all threads and warm up
+3239042
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 24 block_size: 4096 sum: 1.32669
+25 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+76527283
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 25 block_size: 4096 sum: 31.3452
+write: 
+To creat some threads
+main: after creating all threads and warm up
+3060731
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 25 block_size: 4096 sum: 1.25366
+26 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+69194477
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 26 block_size: 4096 sum: 28.3194
+write: 
+To creat some threads
+main: after creating all threads and warm up
+2970182
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 26 block_size: 4096 sum: 1.21658
+27 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+52338486
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 27 block_size: 4096 sum: 21.4376
+write: 
+To creat some threads
+main: after creating all threads and warm up
+2915860
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 27 block_size: 4096 sum: 1.19432
+28 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+39182346
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 28 block_size: 4096 sum: 16.0489
+write: 
+To creat some threads
+main: after creating all threads and warm up
+2798185
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 28 block_size: 4096 sum: 1.14613
+29 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+37874046
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 29 block_size: 4096 sum: 15.5125
+write: 
+To creat some threads
+main: after creating all threads and warm up
+2770921
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 29 block_size: 4096 sum: 1.13496
+30 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+30308851
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 30 block_size: 4096 sum: 12.4144
+write: 
+To creat some threads
+main: after creating all threads and warm up
+2772779
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 30 block_size: 4096 sum: 1.13561
+31 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+21919661
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 31 block_size: 4096 sum: 8.93614
+write: 
+To creat some threads
+main: after creating all threads and warm up
+2842705
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 31 block_size: 4096 sum: 1.16436
+32 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+23628200
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 32 block_size: 4096 sum: 9.65946
+write: 
+To creat some threads
+main: after creating all threads and warm up
+2932311
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 32 block_size: 4096 sum: 1.20106

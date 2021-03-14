@@ -1,0 +1,32 @@
+#
+# run command for this workload:
+# numactl -N 0 fio MmapSeqR.fio  # it binds this FIO workload to CPU 0 only. It should be set according to /dev/pmem6 socket's number
+#
+[global]
+thread
+group_reporting
+norandommap
+overwrite=1
+thinktime=0
+sync=0
+direct=0
+
+ioengine=mmap
+#
+# Important note: this workload is run on a raw device, no file system, no mounting
+filename=/dev/pmem0
+size=20GB
+offset_increment=1G  # each of 'numjobs' will get its own space within the device
+
+time_based
+runtime=30
+ramp_time=10
+
+[SeqR]
+bs=256
+numjobs=16  # depending on CPU core count more can be better, but also can be a bottleneck
+iodepth=1
+
+rw=randrw
+rwmixread=100
+percentage_random=0

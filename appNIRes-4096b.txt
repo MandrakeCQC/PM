@@ -1,0 +1,72 @@
+1 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 1 block_size: 4096 sum: 3.67646
+write: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 1 block_size: 4096 sum: 2.1381
+2 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 2 block_size: 4096 sum: 6.19263
+write: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 2 block_size: 4096 sum: 2.13421
+3 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 3 block_size: 4096 sum: 6.7937
+write: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 3 block_size: 4096 sum: 2.10599
+4 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 4 block_size: 4096 sum: 6.809
+write: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 4 block_size: 4096 sum: 2.04684
+5 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 5 block_size: 4096 sum: 6.81468
+write: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 5 block_size: 4096 sum: 2.00348
+6 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 6 block_size: 4096 sum: 6.68455
+write: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 6 block_size: 4096 sum: 1.93018
+7 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 7 block_size: 4096 sum: 6.60258
+write: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 7 block_size: 4096 sum: 1.7424
+8 
+read: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 8 block_size: 4096 sum: 6.56001
+write: 
+To creat some threads
+main: after creating all threads and warm up
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 8 block_size: 4096 sum: 1.60544

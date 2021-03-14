@@ -1,0 +1,1 @@
+numactl -N 0 fio --output=my_workload.json --output-format=json libpmem.fio

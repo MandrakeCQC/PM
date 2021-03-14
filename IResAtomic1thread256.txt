@@ -1,0 +1,12 @@
+root@kanwu-Super-Server:/home/kanwu/keren/PM_Bench_kanwu# ./bw_memcpy_seq 1024000000 1 nvm 256 r                To creat some threads
+main: after creating all threads and warm up
+554317250
+554317250
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 0 thread_count: 1 block_size: 256 sum: 14.1903
+root@kanwu-Super-Server:/home/kanwu/keren/PM_Bench_kanwu# ./bw_memcpy_seq 1024000000 1 nvm 256 w
+To creat some threads
+main: after creating all threads and warm up
+328957479
+328957479
+res use_clwb: 0 use_ram: 0 use_streaming: 1 use_write: 1 thread_count: 1 block_size: 256 sum: 8.42122
+
