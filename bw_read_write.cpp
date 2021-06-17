@@ -1,5 +1,6 @@
 #include <sys/time.h>
 #include <iostream>
+#include <fstream>
 #include <atomic>
 #include <iostream>
 #include <vector>
@@ -26,6 +27,10 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <linux/types.h>
+#include <map>//hashmap
+
+#include <bits/stdc++.h>
+#include <math.h>
 
 using namespace std;
 
@@ -37,19 +42,72 @@ using namespace std;
     asm volatile(".byte 0x66; xsaveopt %0" : "+m" (*(volatile char *)addr));
 #define _mm_pcommit()\
     asm volatile(".byte 0x66, 0x0f, 0xae, 0xf8");
-
-/*
-__inline__ __u64 read_timestamp(void)
+/*************
+ ** helpers **
+ *************/
+ 
+class LRUCache {
+    // store keys of cache
+    list<uint64_t> dq;
+  
+    // store references of key in cache
+    unordered_map<uint64_t, list<uint64_t>::iterator> ma;
+    uint64_t csize; // maximum capacity of cache
+  
+public:
+    LRUCache(uint64_t);
+    bool refer(uint64_t, uint64_t);
+};
+  
+// Declare the size
+LRUCache::LRUCache(uint64_t n)
 {
-        __u32 lo,hi;
-
-        __asm__ __volatile__
-        (
-         "rdtscp":"=a"(lo),"=d"(hi)
-        );
-        return (__u64)hi<<32|lo;
+    csize = n;
 }
-*/
+  
+// Refers key with in the LRU cache
+//really should allow flexible value size, for now ignored/default 64KB
+//return true if found in cache
+bool LRUCache::refer(uint64_t key, uint64_t valen)
+{
+    bool found = true;
+    // not present in cache
+    if (ma.find(key) == ma.end()) {
+        found = false;
+        // cache is full
+        if (dq.size() == csize) {
+            // delete least recently used element
+            int last = dq.back();
+  
+            // Pops the last elmeent
+            dq.pop_back();
+  
+            // Erase the last
+            ma.erase(last);
+        }
+    }
+  
+    // present in cache
+    else
+        dq.erase(ma[key]);
+  
+    // update reference
+    dq.push_front(key);
+    ma[key] = dq.begin();
+    
+    return found;
+}
+ 
+//req struct
+struct REQUEST
+{
+    bool read;
+    uint64_t key;
+    uint64_t val_len;
+    uint64_t server;
+    uint64_t instance;
+};
+ 
 uint64_t perf_counter()
 {
   uint32_t lo, hi;
@@ -62,12 +120,10 @@ uint64_t perf_counter()
 }
 
 static unsigned int g_seed = 666;
-inline int fastrand() { 
-  g_seed = (214013*g_seed+2531011); 
-  return (g_seed>>16)&0x7FFF; 
-} 
-
-
+inline int fastrand() {
+  g_seed = (214013*g_seed+2531011);
+  return (g_seed>>16)&0x7FFF;
+}
 
 static double gettime(void)
 {
@@ -76,298 +132,338 @@ static double gettime(void)
    return ((double) now_tv.tv_sec) + ((double) now_tv.tv_usec) / 1000000.0;
 }
 
-int BLOCK_SIZE = 256;
 
-// g++ -g0 -O3 -march=native -std=c++14 bw.cpp -ltbb -pthread && numactl --cpubind=0 --membind=0 ./a.out 1e9 1 ram
+/************
+ * individual simulation functions
+ ************/
+#define KEY_MAX_LENGTH 250
+int block_size = 256;
+
+//uint64_t server_count = 1;
+//uint64_t instance_per_server_count = 1;
+
+long dram_size = 4ULL * 1024 * 1024 * 1024;//4GB
+
+const uint64_t queue_max = 100000;
+uint64_t item_size = 64*1024;//64kb
+
+//in ns
+uint64_t DRAM_READ_LAT = 101;//assume random R/W
+uint64_t NVM_READ_LAT = 305;//should vary per access size
+uint64_t DRAM_WRITE_LAT = 57;
+uint64_t NVM_WRITE_LAT = 52;//clwb
+
+uint64_t hot_ratio = 10;
+uint64_t warm_ratio = 25;
+uint64_t cold_ratio = 65;
+uint64_t temp_ratio = 0;//???
+
+
+/* ntokens is overwritten here... shrug.. */
+//static inline void process_get_command(conn *c, token_t *tokens, size_t ntokens, bool return_cas, bool should_touch) {
+    //touch refresh logic omitted
+    
+    //extract key, do limited get
+        //do item get
+        //assoc_find, find in 1 of 2 hash tables by compare key len and hash
+        //if all cache flushed or item expired, remove from lru and record
+        //else return item and bump to warm in lru
+    
+    //if hit
+    /*
+                 * Construct the response. Each hit adds three elements to the
+                 * outgoing data list:
+                 *   "VALUE "
+                 *   key
+                 *   " " + flags + " " + data length + "\r\n" + data (with \r\n)
+                 */
+    
+    
+    
+    //else record miss
+    
+    //reply
+//}
+
+//static void process_update_command(conn *c, token_t *tokens, const size_t ntokens, int comm, bool handle_cas) {
+    //expire checks
+    //item_alloc
+        //do_item_alloc
+            //size = sizeof(item) + key token len + sizeof(flags) + val len (up to 1mb)
+            //align 8 bytes
+            // htotal = key token len + 1 + flag size + sizeof(item) + sizeof(item_chunk), align
+            //evict and alloc, lru maintained by a particular thread
+            //if size > 512KB ??? pulling a header from an entirely different slab class
+            //record out of memory if failed
+            //populate item internally and create internal chunk if needed
+    //Avoid stale data persisting in cache because we failed alloc?
+//}
+
+/************
+ * main
+ ************/
+// g++ -g0 -O3 -march=native -std=c++14 bw.cpp
+//numactl --cpubind=0 --membind=0  ./a.out in_file #servers #instance_per_server max_key
 int main(int argc, char **argv)
 {
-   const uint32_t READ_COUNT = 10; // TODO: what is this???
-
-   if (argc < 5) {
-      cout << "usage: " << argv[0] << " datasize(bytes) thread_count (nvm|ram) block_size(bytes) type(read|write)" << endl;
+   if (argc != 6) {
+      cout << "usage: " << argv[0] << " in_file #servers #instance_per_server #reqs max_key" << endl;
       return 1;
    }
    
-   // some setup
-   bool use_clwb = false;
-   bool use_streaming = true;
-   //bool use_write = false;
-   bool use_write = argv[5][0] == 'w';    // not useful in this measurement
-   //bool use_ram = argv[3][0] == 'r';
-   int use_ram = atoi(argv[3]);    // now becomes how many threads use ram
-
-   const uint64_t total_size = atof(argv[1]);
-   const uint64_t thread_count = atof(argv[2]);
-   BLOCK_SIZE = atof(argv[4]);
-   const uint32_t block_size = BLOCK_SIZE;  // TODO? 
- 
-   int NVM_readthreads = atoi(argv[6]);
-   int DRAM_readthreads = atoi(argv[7]);
-   srand(time(0));
-
-
+   string in_file_name = argv[1];
+   const uint64_t server_count = 1;//atof(argv[2]);
+   const uint64_t instance_per_server_count = 1;//atof(argv[3]);
+   const uint64_t req_count = queue_max;//atof(argv[4]);
+   //max key must be a multiple of sc * ipsc
+   const uint64_t max_key = atof(argv[5]);
    
-   // measurement related
-   bool measure_latency = false;
-
-
-   if (thread_count == 0) {
-      std::cout << "res use_clwb: " << use_clwb << " use_ram: " << use_ram << " use_streaming: " << use_streaming << " use_write: " << use_write << " thread_count: " << thread_count << " block_size: " << BLOCK_SIZE << " sum: " << 0 << std::endl;
-      return 0;
+   const uint64_t stride = max_key / server_count / instance_per_server_count;
+   
+   //request array
+   struct REQUEST requests[req_count];
+   //2d arrays to hold workload to each instance
+   uint64_t request_queues[server_count][instance_per_server_count][queue_max];//store val len only for now
+   uint64_t enqueue_indexs[server_count][instance_per_server_count];
+   uint64_t dequeue_indexs[server_count][instance_per_server_count];
+   uint64_t queue_lens[server_count][instance_per_server_count];
+   
+   
+   //zero out indices
+   for (int i = 0; i<server_count; i++) {
+       for (int j = 0; j<instance_per_server_count; j++) {
+           enqueue_indexs[i][j] = 0;
+           dequeue_indexs[i][j] = 0;
+           queue_lens[i][j] = 0;
+       }
    }
-      
    
-   std::cout << "res use_clwb: " << use_clwb << " use_ram: " << use_ram << " use_streaming: " << use_streaming << " use_write: " << use_write 
-	   << " thread_count: " << thread_count << " block_size: " << BLOCK_SIZE << " sum: " << 0 
-	   << " NVM read threads: " << NVM_readthreads << " , DRAM read threads: " << DRAM_readthreads
-	   << std::endl;
-
-   const uint64_t chunk_size = total_size / thread_count;
-   vector<unique_ptr<thread>> workers(thread_count);
-
-   //   cout << "use_clwb: " << (use_clwb ? "yes" : "no") << endl;
-   //   cout << "use_streaming: " << (use_streaming ? "yes" : "no") << endl;
-   //   cout << "use_ram: " << (use_ram ? "yes" : "no") << endl;
-   //   cout << "use_write: " << (use_write ? "yes" : "no") << endl;
-   //   cout << "total_size: " << total_size << endl;
-   //   cout << "thread_count: " << thread_count << endl;
-   //   cout << "chunk_size (size per thread): " << chunk_size << endl;
-   //   cout << "block size: " << block_size << endl;
-
-
-   atomic<int> start_barrier(0);
-   atomic<uint64_t> global_iterations(0);  // NVM write
-   atomic<uint64_t> global_read_iterations(0);
-   atomic<uint64_t> dram_iterations(0);
-   atomic<uint64_t> dram_read_iterations(0);
-
-   atomic<uint64_t> global_lat_ns(0);
-   atomic<uint64_t> global_read_lat_ns(0);
-   atomic<uint64_t> dram_lat_ns(0);
-   atomic<uint64_t> dram_read_lat_ns(0);
-
-
-   // for DRAM
-   atomic<uint64_t> largest_iterations(0);
-   atomic<uint64_t> smallest_iterations(0);
-
-
-   atomic<bool> running_flag(true);
-
-
-   cout << "To creat some threads" << endl;
-   std::mutex iomutex;   // to print something
-   //int num_cores = sysconf(_SC_NPROCESSORS_CONF);
-   int num_cores = std::thread::hardware_concurrency();
-   cout << "the system has " << num_cores << " cores " << endl;
-  
-   for (int t = 0; t<thread_count; t++) { // Spawn threads
-      workers[t] = make_unique<thread>([&, t]() {
-         // pin to core
-         int thread_id = t;
-	 bool thread_read = false;
-
-
-         cpu_set_t cpuset;
-         CPU_ZERO(&cpuset);
-         CPU_SET(thread_id%num_cores, &cpuset);
-         usleep(100000);  // looks like need to sleep for a little while to avoid workers[thread_id] get seg fault
-
-         //int rc = pthread_setaffinity_np(workers[t]->native_handle(), sizeof(cpu_set_t), &cpuset);
-         ///*
-	 int rc = pthread_setaffinity_np(workers[thread_id]->native_handle(), sizeof(cpu_set_t), &cpuset);
-         if (rc != 0) {
-             std::cerr << "Error calling pthread_setaffinity_np: " << rc << "\n";
-         }
-	 //*/
-         const uint64_t iteration_count = chunk_size / block_size;
-         __m512i write_data_vec; 
-	 if (use_streaming) { 
-	     uint8_t * write_data;
-             write_data = new uint8_t[128];
-             while (((uint64_t) write_data) % 64 != 0) // Align to 64 byte
-                 write_data++;
-             assert(((uint64_t) write_data) % 64 == 0);
-	     memset(write_data, 't', 64);
-             write_data_vec = _mm512_stream_load_si512(write_data);
-         }
-         // Init data ----------------------------------------------
-         uint8_t *keys;
-         //if (use_ram) {
-         //if (t < use_ram) {   // dram
-         if (thread_id < use_ram) {   // dram
-	    if (thread_id < DRAM_readthreads)
-                thread_read = true;
-	        //cout << "!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
-	    { 
-	    std::lock_guard<std::mutex> iolock(iomutex);
-	    cout << "=== this is thread " << thread_id  << " accessing dram, on CPU " << sched_getcpu()  << " read?: " << std::boolalpha << thread_read << endl;
-	    }
-	    keys = new uint8_t[chunk_size + 64];
-            while (((uint64_t) keys) % 64 != 0) // Align to 64 byte
-               keys++;
-         
-	 } else {   // nvm
-	    
-	    if (thread_id < use_ram + NVM_readthreads)
-	        thread_read = true;
-
-	    { 
-	    std::lock_guard<std::mutex> iolock(iomutex);
-	    cout << "=== this is thread " << thread_id  << " accessing NVM, on CPU " << sched_getcpu() << " read?: " << std::boolalpha << thread_read << endl;
-	    }
+   fstream in_file;
+   
+   in_file.open(in_file_name, ios::in);
+	if (!in_file) {
+		cout << "Failed to open in file\n";
+        return 1;
+	}
+		cout << "File opened\n";
+        string line;
+        
+        int req_i = 0;
+        while(getline(in_file, line)){
+            //cout << line << "\n";
             
-	    //int fd = open(("/mnt/pmem/file_" + to_string(t)).c_str(), O_RDWR | O_CREAT, 0);
-	    int fd = open(("/mnt/pmem/file_" + to_string(thread_id)).c_str(), O_RDWR | O_CREAT, 0);
-            int td = ftruncate(fd, chunk_size);
-	    //printf("%d %d\n", fd, td);
-            if (fd<0 || td<0) {
-               cout << "unable to create file" << endl;
-               return;
+            //op type, key length, value length
+            uint64_t op, key, val;
+            
+            //op
+            op = atof(line.substr(0,1).c_str());
+            
+            //use key to calculate responsible instance
+            istringstream ss(line);
+            string word;
+            //key
+            ss >> word;
+            ss >> word;
+            //cout << word << "\n";
+            key = atof(word.c_str());
+            //if set/write/1, there should also be a value
+            if (op)
+            {
+                ss >> word;
+                //cout << word << "\n";
+                val = atof(word.c_str());
             }
-            keys = (uint8_t *) mmap(nullptr, chunk_size, PROT_WRITE, MAP_SHARED, fd, 0);
-	    
-         }
-         assert(((uint64_t) keys) % 64 == 0);
-         // !!!!!!!!!!!!! NOTE !!!!!!!!!!!!!!!
-	 memset(keys, 'a', chunk_size);
-	 uint64_t *random_offsets = new uint64_t[iteration_count];
-         for (uint64_t i = 0; i<iteration_count; i++) {
-            random_offsets[i] = i * block_size;
-         }
-         random_shuffle(random_offsets, random_offsets + iteration_count);
+            
+            //calculate server and instance number responsible
+            uint64_t instance_num = (uint64_t) floor(key / stride);
+            uint64_t i = (uint64_t) floor(instance_num / instance_per_server_count);
+            uint64_t j = instance_num % instance_per_server_count;
+            //cout << "op "<< op << " key " << key << " val len " << val << " to server " << i << " instance " << j << "\n";
+            
+            //ops[i][j] = op;
+            if ( req_i >= req_count) 
+            {
+                cout << "too many lines in reqest file" << "\n";
+                return 1;
+            }
+            
+            requests[req_i].read = !op;
+            requests[req_i].key = key;
+            requests[req_i].val_len = val;
+            requests[req_i].server = i;
+            requests[req_i].instance = j;
+            
+            req_i++;
+        }
+		in_file.close(); 
+	
+    uint64_t thread_count;
+    atomic<int> start_barrier(0);
+    std::mutex iomutex;
+    atomic<bool> running_flag(true);
+    
+    thread_count = server_count * instance_per_server_count;
+    
+    
+    vector<unique_ptr<thread>> workers(thread_count);
+    //atomic<bool> running_flag(true);
+    
+    for (int t = 0; t<thread_count; t++) {
+        workers[t] = make_unique<thread>([&, t]() {
+        int thread_id = t;
+            
+        //workload index
+        uint64_t thread_i = (uint64_t) floor(t / instance_per_server_count);
+        uint64_t thread_j = t % instance_per_server_count;
+            
 
-         // Warm up, just a little bit ----------------------------
-	 start_barrier++;
+         
+        //ordered hashmap and counter
+        //std::map<uint64_t, uint64_t> m;//key, val len
+        uint64_t inst_dram_size = (uint64_t)(dram_size / item_size / instance_per_server_count);
+        LRUCache ca(inst_dram_size);
+        
+        //uint64_t dram_next_free_line_index = 0;
+        //uint64_t dram_keys[dram_lines_per_instance_count];
+        //report vars, times in ns
+        uint64_t local_dram_read = 0;
+        uint64_t local_nvm_read = 0;
+        uint64_t local_write = 0;
+        uint64_t local_lat_ns = 0;
+        uint64_t lat_sampling = 0;
+        uint64_t start_time, end_time;
+         /*start_time = perf_counter();
+         std::this_thread::sleep_for(std::chrono::nanoseconds(DRAM_READ_LAT));
+         end_time = perf_counter();
+         cout << DRAM_READ_LAT << "ns = " << end_time - start_time << endl;*/
+         //1ns~1300 cycles
+         
+         uint64_t reads_last_sec, writes_last_sec, timer, cur_timer;
+         double avg_amplifier = 0.0;
+         reads_last_sec = 0;
+         writes_last_sec = 0;
+         
+        {
+        std::lock_guard<std::mutex> iolock(iomutex);
+        cout << "=== this is thread " << thread_id  << " as server " << thread_i  << " instance " << thread_j << endl;
+        cout << "instance cache size is" << inst_dram_size << " items" << endl;
+        }
+             
+        // Warm up, just a little bit ----------------------------
+         start_barrier++;
          while (start_barrier != thread_count + 1) {
          }
-
-         uint64_t local_counter = 1;
-         uint64_t local_iteration = 0;
-
-         //__u64 local_lat_ns = 0;
-	 //__u64 start_time, end_time;
-	 uint64_t start_time, end_time;
          
-	 //struct timespec start_time, end_time;
-         uint64_t local_lat_ns = 0;
-         uint64_t lat_sampling = 0;
+         
+         timer = perf_counter();//every sec get r/w ratio
+         
+        //play workload
+        while ( true ) {
+            
+            if (!running_flag && queue_lens[thread_i][thread_j] == 0) {
 
 
-         while (true) {
-            for (uint64_t idx = 0; idx<iteration_count; idx++) {
-               if (!running_flag) {
-                  //cout << "to end while running " << iteration_count << " : " << idx << endl;
-                  //cout << "to end while running " << local_iteration << endl;
-		  assert(local_counter);
-                  //if (t < use_ram) {
-                  if (thread_id < use_ram) {
-                      if (thread_read) {
-		          dram_read_iterations += idx + local_iteration;
-		          dram_read_lat_ns += local_lat_ns;
-		      } else { 
-		          dram_iterations += idx + local_iteration;
-		          dram_lat_ns += local_lat_ns;
+                      {   // to compare throughput from different threads
+                      std::lock_guard<std::mutex> iolock(iomutex);
+                      cout << "=== this is thread " << thread_id  << " as server " << thread_i  << " instance " << thread_j << " on CPU " << sched_getcpu() << endl;
+                      cout << "iterations: " << lat_sampling
+                           << "; local dram reads " << local_dram_read << ", local nvm reads " << local_nvm_read
+                           << "; local writes " << local_write << endl;
+                      cout << "avg lat: " << (double)(local_lat_ns) / (lat_sampling * 2.3) << " ns" << endl;
+                      //tail? seperate rw? gbs?
                       }
-
-
-	              {   // to compare throughput from different threads 
-	              std::lock_guard<std::mutex> iolock(iomutex);
-	              cout << "=== this is thread " << thread_id  << " accessing DRAM, on CPU " << sched_getcpu()  
-			      << " read?: " << std::boolalpha << thread_read
-			      << " iterations: " << (idx + local_iteration) /(1000.0 * 1000.0) << " sampled: " << lat_sampling 
-			      //<< " avg lat: " << (double)(local_lat_ns) / (idx + local_iteration) << " ns " << endl;
-			      << " avg lat: " << (double)(local_lat_ns) / (lat_sampling * 2.3) << " ns " << endl;
-
-
-		      if (idx + local_iteration > largest_iterations)
-		          largest_iterations = idx + local_iteration;
-		      if (idx + local_iteration < smallest_iterations || smallest_iterations == 0)
-		          smallest_iterations = idx + local_iteration;
-                      }
-
-		      return;
-	          }
-
-		  // NVM
-                  if (thread_read) {
-		      global_read_iterations += idx + local_iteration;
-		      global_read_lat_ns += local_lat_ns;
-	          } else { 
-		      global_iterations += idx + local_iteration;
-		      global_lat_ns += local_lat_ns;
-		  }
-
-	          { 
-	          std::lock_guard<std::mutex> iolock(iomutex);
-		  cout << "=== this is thread " << thread_id  << " accessing NVM, on CPU " << sched_getcpu()  
-			  << " read?: " << std::boolalpha << thread_read 
-			  << " iterations: " << (idx + local_iteration) /(1000.0 * 1000.0) 
-			  //<< " avg lat: " << (double)(local_lat_ns) / (idx + local_iteration) << " ns " << endl;
-			  << " avg lat: " << (double)(local_lat_ns) / (lat_sampling * 2.3) << " ns " << endl;
-                  }
-
-		  return;
-               }
-               
-
-	       // access of request size
-	       uint64_t *start = (uint64_t *) (keys + random_offsets[idx]);
-	       
-	       //start_time = chrono::steady_clock::now(); 
-               
-	       if (measure_latency && idx % 1000 == 0) { 
-	           start_time = perf_counter();
-	           lat_sampling += 1;
-	       }
-               
-	       //clock_gettime(CLOCK_REALTIME, &start_time);
-
-	       for (uint64_t j = 0; j<BLOCK_SIZE / 8; j += 8) {
-                   //if (use_write) {
-                   //if ((float)(rand()%100)/100.0  > thread_readratio) {
-                   //if ((float)(fastrand()%100)/100.0  > thread_readratio) {
-                   if (!thread_read) {
-                       
-		       if (use_streaming) {
-                           _mm512_stream_si512 ((__m512i*)(start + j), write_data_vec);
-			   //_mm_sfence();     // NOTE this would be per cache line mfence
-		       } else {
-                           //start[j]++;    //TODO this will be an extra load, should be changed
-                           start[j] = 1;    //TODO this will be an extra load, should be changed
-			   if (use_clwb) {
-                               uint64_t* ptr = start + j;
-                               _mm_clwb(ptr);
-			       //_mm_sfence();     // NOTE this would be per cache line mfence
-			   }
-		       }
-		       
-		   } else {
-		       local_counter += start[j];
-		   }
-
-               }
-	       
-	       /*if (use_write && (use_clwb || use_streaming)) { // this would be per access size mfence
-	           _mm_sfence();
-	       }*/
-		       
-	       if (measure_latency && idx % 1000 == 0) {
-	           end_time = perf_counter();
-	           local_lat_ns += end_time - start_time;
-	       }
-
-	       //clock_gettime(CLOCK_REALTIME, &end_time); 
-	       //local_lat_ns += (end_time.tv_sec - start_time.tv_sec) * 1000000000 + (end_time.tv_nsec - start_time.tv_nsec);
-               
-	       //cout << local_iteration << " : " << iteration_count << "    "  <<  end_time.tv_nsec << " " << start_time.tv_nsec << " : " << local_lat_ns << endl;
-               //cout << end_time - start_time << endl;
+                      return;
             }
-            local_iteration += iteration_count;
-         }
-      });
-   }
-
+            
+            if (queue_lens[thread_i][thread_j]) {
+                start_time = perf_counter();
+                
+                //first get request content
+                uint64_t request_queue_idx = queue_lens[thread_i][thread_j];
+                struct REQUEST req = requests[request_queues[thread_i][thread_j][request_queue_idx]];
+                bool read = req.read;
+                uint64_t key = req.key;
+                uint64_t val_len = req.val_len;
+                
+                //if READ
+                //interference makes 4*lat (not good yet)
+                // if main memory is not full, sleep DRAM_READ_LAT
+                // if main memory is full, sleep NVM_READ_LAT (hide dram evict time for we assume persistent writes)
+                if (read) {
+                    
+                    if (ca.refer(key, 0)) {//in dram
+                        std::this_thread::sleep_for(std::chrono::nanoseconds(DRAM_READ_LAT));
+                        local_dram_read++;
+                        //cout << "dram read sleep" << endl;
+                    }
+                    else//not in dram, fetch
+                    {
+                        reads_last_sec++;
+                        //amp nvm read lat
+                        //4:1 = 2.5
+                        //3:1 = 5.0
+                        double read_lat_amplifier = 1.0;
+                        double rw_ratio = (writes_last_sec == 0 ? 5 : reads_last_sec / writes_last_sec);//cannot divide 0
+                        if (rw_ratio < 3 ) {
+                            read_lat_amplifier = 5.0;
+                        }
+                        else if (rw_ratio < 4) {
+                            read_lat_amplifier = 2.5;
+                        }
+                        avg_amplifier += read_lat_amplifier;
+                        //evict if needed, not implemented yet
+                        /*if (dram_next_free_line_index >= dram_lines_per_instance_count - 1) {
+                            //lru
+                            dram_keys
+                        }*/
+                        //read nvm and write to dram
+                        std::this_thread::sleep_for(std::chrono::nanoseconds((int)(read_lat_amplifier * NVM_READ_LAT)));
+                        local_nvm_read++;
+                        //m[key] = val_len;
+                        //cout << "nvm read sleep" << endl;
+                    }
+                }
+                //if WRITE, sleep NVM_WRITE_LAT
+                else {
+                    ca.refer(key, 0);
+                    writes_last_sec++;
+                    //m[key] = val_len;
+                    std::this_thread::sleep_for(std::chrono::nanoseconds(NVM_WRITE_LAT));
+                    local_write++;
+                        //cout << "write sleep" << endl;
+                }
+                
+                dequeue_indexs[thread_i][thread_j] = ++dequeue_indexs[thread_i][thread_j] % queue_max;
+                queue_lens[thread_i][thread_j]--;
+                
+                end_time = perf_counter();
+                local_lat_ns += (end_time - start_time);
+                lat_sampling++;
+                
+                
+                cur_timer = end_time;//zeroed out every sec for simplicity
+                if ((cur_timer - timer) > 1000 * 1000 * 1000) {
+                    timer = cur_timer;
+                    avg_amplifier /= reads_last_sec;
+                    {
+                      std::lock_guard<std::mutex> iolock(iomutex);
+                      cout << "=== this is thread " << thread_id  << " as server " << thread_i  << " instance " << endl;
+                      cout << "this sec there were " << reads_last_sec << " reads " << writes_last_sec << " writes "<< avg_amplifier << " avg_amplifier" << endl;
+                    }
+                    reads_last_sec = 0;
+                    writes_last_sec = 0;
+                    avg_amplifier = 0;
+                }
+            }
+            
+            
+        }
+            
+        });
+    }
+    
+   
+   
    // Main thread printing and controlling
    start_barrier++;
    while (start_barrier != thread_count + 1) {
@@ -375,39 +471,35 @@ int main(int argc, char **argv)
    }
    cout << "main: after creating all threads and warm up" << endl;
    double start = gettime();
-   //usleep(20000000);
-   //usleep(10000000);
-   usleep(8000000);
+   //play workload
+   for (int i = 0; i<req_count; i++) {
+       //cout << i << endl;
+       //find target instance
+       uint64_t server = requests[i].server;
+       uint64_t instance = requests[i].instance;
+       //make sure there is space in the round queue
+       uint64_t enqueue_index = enqueue_indexs[server][instance];
+       uint64_t queue_len = queue_lens[server][instance];//not safe
+       
+       if (queue_len == queue_max) {
+           cout << "queue filled! exiting" << endl;
+           break;
+       }
+       request_queues[server][instance][enqueue_index] = i;//req index i given
+       queue_lens[server][instance]++;
+       enqueue_indexs[server][instance] = ++enqueue_index % queue_max;
+       //cout << "queue len" << queue_lens[server][instance] << endl;
+   }
+   //usleep(8000000);
    double end = gettime();
    running_flag = false;
    for (auto &worker : workers) {
       worker->join();
    }
-
-   double gbs = ((global_iterations * block_size) / (1000.0 * 1000.0 * 1000.0)) / (end - start);     // NVM write
-   double read_gbs = ((global_read_iterations * block_size) / (1000.0 * 1000.0 * 1000.0)) / (end - start); // NVM read
-   double dram_gbs = ((dram_iterations * block_size) / (1000.0 * 1000.0 * 1000.0)) / (end - start);  // DRAM write
-   double dram_read_gbs = ((dram_read_iterations * block_size) / (1000.0 * 1000.0 * 1000.0)) / (end - start);  // DRAM read
-
-   
-   //double NVM_lat = (double)(global_lat_ns) / (global_iterations) ;
-   //double DRAM_lat = (double)(dram_lat_ns) / (dram_iterations) ;
-   double NVM_lat = (double)(global_lat_ns) / (global_iterations) / 2.3;              // NVM write
-   double NVM_read_lat = (double)(global_read_lat_ns) / (global_iterations) / 2.3;    // NVM read
-   double DRAM_lat = (double)(dram_lat_ns) / (dram_iterations) / 2.3;                 // DRAM write
-   double DRAM_read_lat = (double)(dram_read_lat_ns) / (dram_iterations) / 2.3;       // DRAM read
-   
-   std::cout << "avg bw_dram/thread: " << dram_gbs / use_ram 
-	     << "\nmax bw_dram/thread: " << ((largest_iterations * block_size) / (1000.0 * 1000.0 * 1000.0)) / (end - start)
-	     << "\nsmallest bw_dram/thread: " << ((smallest_iterations * block_size) / (1000.0 * 1000.0 * 1000.0)) / (end - start)
-	     << endl;
-
-   //std::cout << "res use_clwb: " << use_clwb << " use_ram: " << use_ram << " use_streaming: " << use_streaming << " use_write: " << use_write << " thread_count: " << thread_count << " block_size: " << BLOCK_SIZE << " nvm: " << gbs <<  " dram: " << dram_gbs << std::endl;
-   std::cout << "res use_clwb: " << use_clwb << " use_ram: " << use_ram << " use_streaming: " << use_streaming << " use_write: " << use_write 
-	     << " thread_count: " << thread_count << " block_size: " << BLOCK_SIZE 
-	     << " NVM threads (read:write): " << NVM_readthreads  << ":" << thread_count - use_ram - NVM_readthreads << " DRAM threads (read:write): " << DRAM_readthreads << ":" << use_ram - DRAM_readthreads
-	     << " nvm: " << read_gbs << " " << NVM_read_lat  << " " << gbs << " " << NVM_lat << " dram: " << dram_read_gbs << " " << DRAM_read_lat << " " << dram_gbs << " " << DRAM_lat << std::endl;
-
-   return 0;
+    //cout << "1ns = " << std::chrono::nanoseconds(NVM_READ_LAT) << endl;
+    cout << "done..." << endl;
+    return 0;
 }
+
+
 
