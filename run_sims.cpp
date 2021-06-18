@@ -137,6 +137,8 @@ static double gettime(void)
  * individual simulation functions
  ************/
 #define KEY_MAX_LENGTH 250
+#define VAL_AVG_LENGTH 1024
+#define USE_BW 1
 int block_size = 256;
 
 //uint64_t server_count = 1;
@@ -148,56 +150,21 @@ const uint64_t queue_max = 100000;
 uint64_t item_size = 64*1024;//64kb
 
 //in ns
+#ifdef USE_BW
+uint64_t NVM_READ_KBS = 27 * 1024 * 1024;//in KBs,peak at 16 threads
+uint64_t NVM_WRITE_KBS = 8 * 1024 * 1024;//peak at 2
+uint64_t NVM_READ_AMP = 2;//read amplifier, interference consumes 2 units of bw
+double NVM_WRITE_AMP = 8 / 7;
+#endif
 uint64_t DRAM_READ_LAT = 101;//assume random R/W
 uint64_t NVM_READ_LAT = 305;//should vary per access size
 uint64_t DRAM_WRITE_LAT = 57;
 uint64_t NVM_WRITE_LAT = 52;//clwb
 
-uint64_t hot_ratio = 10;
+/*uint64_t hot_ratio = 10;
 uint64_t warm_ratio = 25;
 uint64_t cold_ratio = 65;
-uint64_t temp_ratio = 0;//???
-
-
-/* ntokens is overwritten here... shrug.. */
-//static inline void process_get_command(conn *c, token_t *tokens, size_t ntokens, bool return_cas, bool should_touch) {
-    //touch refresh logic omitted
-    
-    //extract key, do limited get
-        //do item get
-        //assoc_find, find in 1 of 2 hash tables by compare key len and hash
-        //if all cache flushed or item expired, remove from lru and record
-        //else return item and bump to warm in lru
-    
-    //if hit
-    /*
-                 * Construct the response. Each hit adds three elements to the
-                 * outgoing data list:
-                 *   "VALUE "
-                 *   key
-                 *   " " + flags + " " + data length + "\r\n" + data (with \r\n)
-                 */
-    
-    
-    
-    //else record miss
-    
-    //reply
-//}
-
-//static void process_update_command(conn *c, token_t *tokens, const size_t ntokens, int comm, bool handle_cas) {
-    //expire checks
-    //item_alloc
-        //do_item_alloc
-            //size = sizeof(item) + key token len + sizeof(flags) + val len (up to 1mb)
-            //align 8 bytes
-            // htotal = key token len + 1 + flag size + sizeof(item) + sizeof(item_chunk), align
-            //evict and alloc, lru maintained by a particular thread
-            //if size > 512KB ??? pulling a header from an entirely different slab class
-            //record out of memory if failed
-            //populate item internally and create internal chunk if needed
-    //Avoid stale data persisting in cache because we failed alloc?
-//}
+uint64_t temp_ratio = 0;//???*/
 
 /************
  * main
@@ -329,7 +296,16 @@ int main(int argc, char **argv)
         uint64_t local_dram_read = 0;
         uint64_t local_nvm_read = 0;
         uint64_t local_write = 0;
+        #ifdef USE_BW
+            uint64_t local_thrupt = 0;
+            uint64_t local_nvm_thrupt = 0;
+            uint64_t local_nvm_read_thrupt = 0;
+            uint64_t local_nvm_write_thrupt = 0;
+            uint64_t local_nvm_read_thrupt_last_sec = 0;
+            double local_nvm_write_thrupt_last_sec = 0;
+        #endif
         uint64_t local_lat_ns = 0;
+        
         uint64_t lat_sampling = 0;
         uint64_t start_time, end_time;
          /*start_time = perf_counter();
@@ -369,7 +345,14 @@ int main(int argc, char **argv)
                       cout << "iterations: " << lat_sampling
                            << "; local dram reads " << local_dram_read << ", local nvm reads " << local_nvm_read
                            << "; local writes " << local_write << endl;
-                      cout << "avg lat: " << (double)(local_lat_ns) / (lat_sampling * 2.3) << " ns" << endl;
+                           #ifdef USE_BW
+                                cout << local_nvm_thrupt << " reqs served in" << (double)local_lat_ns / (1000.0 * 1000.0 * 1000.0) << "s" << endl;
+                                cout << "NVM avg read bw: " << (double)(local_nvm_read_thrupt) / (local_lat_ns / 1000.0 / 1000.0 / 1000.0) << " items/s" << endl;
+                                cout << "NVM avg write bw: " << (double)(local_nvm_write_thrupt) / (local_lat_ns / 1000.0 / 1000.0 / 1000.0) << " items/s" << endl;
+                           #else
+                               cout << "avg lat: " << (double)(local_lat_ns) / (lat_sampling * 2.3) << " ns" << endl;
+                           #endif
+                      
                       //tail? seperate rw? gbs?
                       }
                       return;
@@ -385,39 +368,73 @@ int main(int argc, char **argv)
                 uint64_t key = req.key;
                 uint64_t val_len = req.val_len;
                 
+                double rw_ratio = (writes_last_sec == 0 ? 5 : reads_last_sec / writes_last_sec);//current ratio, cannot divide 0
                 //if READ
                 //interference makes 4*lat (not good yet)
                 // if main memory is not full, sleep DRAM_READ_LAT
                 // if main memory is full, sleep NVM_READ_LAT (hide dram evict time for we assume persistent writes)
+                
+                #ifdef USE_BW
+                bool served = false;
+                #endif
+                
                 if (read) {
                     
                     if (ca.refer(key, 0)) {//in dram
-                        std::this_thread::sleep_for(std::chrono::nanoseconds(DRAM_READ_LAT));
+                        #ifdef USE_BW
+                            local_thrupt++;
+                        #else
+                            std::this_thread::sleep_for(std::chrono::nanoseconds(DRAM_READ_LAT));
+                        #endif
+                        
                         local_dram_read++;
+                        
+                        served = true;
                         //cout << "dram read sleep" << endl;
                     }
                     else//not in dram, fetch
                     {
                         reads_last_sec++;
-                        //amp nvm read lat
-                        //4:1 = 2.5
-                        //3:1 = 5.0
-                        double read_lat_amplifier = 1.0;
-                        double rw_ratio = (writes_last_sec == 0 ? 5 : reads_last_sec / writes_last_sec);//cannot divide 0
-                        if (rw_ratio < 3 ) {
-                            read_lat_amplifier = 5.0;
-                        }
-                        else if (rw_ratio < 4) {
-                            read_lat_amplifier = 2.5;
-                        }
-                        avg_amplifier += read_lat_amplifier;
-                        //evict if needed, not implemented yet
-                        /*if (dram_next_free_line_index >= dram_lines_per_instance_count - 1) {
-                            //lru
-                            dram_keys
-                        }*/
-                        //read nvm and write to dram
-                        std::this_thread::sleep_for(std::chrono::nanoseconds((int)(read_lat_amplifier * NVM_READ_LAT)));
+                        
+                        #ifdef USE_BW
+                            if(local_nvm_read_thrupt_last_sec < NVM_READ_KBS) {//do not serve request when at max bw; wait for next iteration
+                                //if there was write over 16:1, apply amplifier
+                                if (rw_ratio < 16 ) {
+                                    local_nvm_read_thrupt_last_sec+=NVM_READ_AMP;
+                                }
+                                else {
+                                    local_nvm_read_thrupt_last_sec++;//+1 item's size
+                                }
+                                local_thrupt++;
+                                local_nvm_thrupt++;
+                                local_nvm_read_thrupt++;
+                                
+                                std::this_thread::sleep_for(std::chrono::nanoseconds((int)(NVM_READ_LAT)));//courtesy sleep
+                                
+                                served = true;
+                            }
+                        #else
+                            //amp nvm read lat
+                            //4:1 = 2.5
+                            //3:1 = 5.0
+                            double read_lat_amplifier = 1.0;
+                            
+                            if (rw_ratio < 3 ) {
+                                read_lat_amplifier = 5.0;
+                            }
+                            else if (rw_ratio < 4) {
+                                read_lat_amplifier = 2.5;
+                            }
+                            avg_amplifier += read_lat_amplifier;
+                            //evict if needed, not implemented yet
+                            /*if (dram_next_free_line_index >= dram_lines_per_instance_count - 1) {
+                                //lru
+                                dram_keys
+                            }*/
+                            //read nvm and write to dram
+                            std::this_thread::sleep_for(std::chrono::nanoseconds((int)(read_lat_amplifier * NVM_READ_LAT)));
+                        #endif
+                        
                         local_nvm_read++;
                         //m[key] = val_len;
                         //cout << "nvm read sleep" << endl;
@@ -428,17 +445,45 @@ int main(int argc, char **argv)
                     ca.refer(key, 0);
                     writes_last_sec++;
                     //m[key] = val_len;
-                    std::this_thread::sleep_for(std::chrono::nanoseconds(NVM_WRITE_LAT));
+                    #ifdef USE_BW
+                        if(local_nvm_write_thrupt_last_sec < NVM_WRITE_KBS) {
+                            //if there was write over 1:16, apply amplifier
+                            if (rw_ratio > ((double)(1/3)) ) {
+                                local_nvm_write_thrupt_last_sec+=NVM_WRITE_AMP;
+                            }
+                            else {
+                                local_nvm_write_thrupt_last_sec++;//+1 item's size
+                            }
+                            local_thrupt++;
+                            local_nvm_thrupt++;
+                            local_nvm_write_thrupt++;
+                            
+                            std::this_thread::sleep_for(std::chrono::nanoseconds((int)(NVM_WRITE_LAT)));//courtesy sleep
+                            
+                            served = true;
+                        }
+                    #else
+                        std::this_thread::sleep_for(std::chrono::nanoseconds(NVM_WRITE_LAT));
+                    #endif
                     local_write++;
                         //cout << "write sleep" << endl;
                 }
-                
+                #ifdef USE_BW
+                    if(served){
+                        dequeue_indexs[thread_i][thread_j] = ++dequeue_indexs[thread_i][thread_j] % queue_max;
+                        queue_lens[thread_i][thread_j]--;
+                        lat_sampling++;
+                    }
+                    end_time = perf_counter();
+                    local_lat_ns += (end_time - start_time);
+                #else
                 dequeue_indexs[thread_i][thread_j] = ++dequeue_indexs[thread_i][thread_j] % queue_max;
                 queue_lens[thread_i][thread_j]--;
                 
                 end_time = perf_counter();
                 local_lat_ns += (end_time - start_time);
                 lat_sampling++;
+                #endif
                 
                 
                 cur_timer = end_time;//zeroed out every sec for simplicity
@@ -448,11 +493,22 @@ int main(int argc, char **argv)
                     {
                       std::lock_guard<std::mutex> iolock(iomutex);
                       cout << "=== this is thread " << thread_id  << " as server " << thread_i  << " instance " << endl;
-                      cout << "this sec there were " << reads_last_sec << " reads " << writes_last_sec << " writes "<< avg_amplifier << " avg_amplifier" << endl;
+                      #ifdef USE_BW
+                        cout << "this sec there were " << reads_last_sec << " reads " << writes_last_sec << " writes; "  
+                        << " read throuput " << local_nvm_read_thrupt_last_sec
+                        << " write throuput " << local_nvm_write_thrupt_last_sec << endl;
+                      #else
+                        cout << "this sec there were " << reads_last_sec << " reads " << writes_last_sec << " writes; "<< avg_amplifier << " avg_amplifier" << endl;
+                      #endif
                     }
                     reads_last_sec = 0;
                     writes_last_sec = 0;
+                    #ifdef USE_BW
+                        local_nvm_read_thrupt_last_sec=0;
+                        local_nvm_write_thrupt_last_sec=0;
+                    #else
                     avg_amplifier = 0;
+                    #endif
                 }
             }
             
