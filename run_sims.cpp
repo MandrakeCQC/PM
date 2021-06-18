@@ -151,8 +151,8 @@ uint64_t item_size = 64*1024;//64kb
 
 //in ns
 #ifdef USE_BW
-uint64_t NVM_READ_KBS = 27 * 1024 * 1024;//in KBs,peak at 16 threads
-uint64_t NVM_WRITE_KBS = 8 * 1024 * 1024;//peak at 2
+uint64_t NVM_READ_KBS = 27 * 1024 * 1024;//27gbs in KBs,peak at 16 threads
+uint64_t NVM_WRITE_KBS = 8 * 1024 * 1024;//8gbs in KBs,peak at 2
 uint64_t NVM_READ_AMP = 2;//read amplifier, interference consumes 2 units of bw
 double NVM_WRITE_AMP = 8 / 7;
 #endif
@@ -165,6 +165,47 @@ uint64_t NVM_WRITE_LAT = 52;//clwb
 uint64_t warm_ratio = 25;
 uint64_t cold_ratio = 65;
 uint64_t temp_ratio = 0;//???*/
+
+
+/* ntokens is overwritten here... shrug.. */
+//static inline void process_get_command(conn *c, token_t *tokens, size_t ntokens, bool return_cas, bool should_touch) {
+    //touch refresh logic omitted
+    
+    //extract key, do limited get
+        //do item get
+        //assoc_find, find in 1 of 2 hash tables by compare key len and hash
+        //if all cache flushed or item expired, remove from lru and record
+        //else return item and bump to warm in lru
+    
+    //if hit
+    /*
+                 * Construct the response. Each hit adds three elements to the
+                 * outgoing data list:
+                 *   "VALUE "
+                 *   key
+                 *   " " + flags + " " + data length + "\r\n" + data (with \r\n)
+                 */
+    
+    
+    
+    //else record miss
+    
+    //reply
+//}
+
+//static void process_update_command(conn *c, token_t *tokens, const size_t ntokens, int comm, bool handle_cas) {
+    //expire checks
+    //item_alloc
+        //do_item_alloc
+            //size = sizeof(item) + key token len + sizeof(flags) + val len (up to 1mb)
+            //align 8 bytes
+            // htotal = key token len + 1 + flag size + sizeof(item) + sizeof(item_chunk), align
+            //evict and alloc, lru maintained by a particular thread
+            //if size > 512KB ??? pulling a header from an entirely different slab class
+            //record out of memory if failed
+            //populate item internally and create internal chunk if needed
+    //Avoid stale data persisting in cache because we failed alloc?
+//}
 
 /************
  * main
@@ -179,7 +220,7 @@ int main(int argc, char **argv)
    }
    
    string in_file_name = argv[1];
-   const uint64_t server_count = 1;//atof(argv[2]);
+   const uint64_t server_count = 4;//atof(argv[2]);
    const uint64_t instance_per_server_count = 1;//atof(argv[3]);
    const uint64_t req_count = queue_max;//atof(argv[4]);
    //max key must be a multiple of sc * ipsc
@@ -327,7 +368,7 @@ int main(int argc, char **argv)
              
         // Warm up, just a little bit ----------------------------
          start_barrier++;
-         while (start_barrier != thread_count + 1) {
+         while (start_barrier != thread_count + 2) {
          }
          
          
@@ -380,7 +421,7 @@ int main(int argc, char **argv)
                 
                 if (read) {
                     
-                    if (ca.refer(key, 0)) {//in dram
+                    if (false){//disable dram//ca.refer(key, 0)) {//in dram
                         #ifdef USE_BW
                             local_thrupt++;
                         #else
@@ -409,7 +450,7 @@ int main(int argc, char **argv)
                                 local_nvm_thrupt++;
                                 local_nvm_read_thrupt++;
                                 
-                                std::this_thread::sleep_for(std::chrono::nanoseconds((int)(NVM_READ_LAT)));//courtesy sleep
+                                //std::this_thread::sleep_for(std::chrono::nanoseconds((int)(NVM_READ_LAT)));//courtesy sleep
                                 
                                 served = true;
                             }
@@ -458,7 +499,7 @@ int main(int argc, char **argv)
                             local_nvm_thrupt++;
                             local_nvm_write_thrupt++;
                             
-                            std::this_thread::sleep_for(std::chrono::nanoseconds((int)(NVM_WRITE_LAT)));//courtesy sleep
+                            //std::this_thread::sleep_for(std::chrono::nanoseconds((int)(NVM_WRITE_LAT)));//courtesy sleep
                             
                             served = true;
                         }
@@ -473,6 +514,9 @@ int main(int argc, char **argv)
                         dequeue_indexs[thread_i][thread_j] = ++dequeue_indexs[thread_i][thread_j] % queue_max;
                         queue_lens[thread_i][thread_j]--;
                         lat_sampling++;
+                    }
+                    else {
+                        std::this_thread::sleep_for(std::chrono::nanoseconds(1*1000*1000));//1ms
                     }
                     end_time = perf_counter();
                     local_lat_ns += (end_time - start_time);
@@ -526,7 +570,7 @@ int main(int argc, char **argv)
        //cout<< start_barrier << endl;
    }
    cout << "main: after creating all threads and warm up" << endl;
-   double start = gettime();
+   //double start = gettime();
    //play workload
    for (int i = 0; i<req_count; i++) {
        //cout << i << endl;
@@ -547,7 +591,8 @@ int main(int argc, char **argv)
        //cout << "queue len" << queue_lens[server][instance] << endl;
    }
    //usleep(8000000);
-   double end = gettime();
+   //double end = gettime();
+   start_barrier++;
    running_flag = false;
    for (auto &worker : workers) {
       worker->join();
